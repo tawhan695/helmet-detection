@@ -75,7 +75,7 @@ class Ui_MainWindow(object):
 
 
         self.Show_img = QtWidgets.QFrame(self.widget)
-        self.Show_img.setGeometry(QtCore.QRect(25, 50, 600, 300)) #set lacation x y,size x y
+        self.Show_img.setGeometry(QtCore.QRect(25, 50,313,383)) #set lacation x y,size x y
         self.Show_img.setStyleSheet("background-color: rgb(22, 24, 25);\n""image: url(icon/picture_filled_100px.png);")
         self.Show_img.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.Show_img.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -84,14 +84,14 @@ class Ui_MainWindow(object):
       
 
         self.IMG_show = QtWidgets.QLabel(self.Show_img)
-        self.IMG_show.setGeometry(QtCore.QRect(0, 0, 600, 300))
+        self.IMG_show.setGeometry(QtCore.QRect(0, 0,313,383))
         self.IMG_show.setText("")
         self.IMG_show.setObjectName("IMG_show")
         script_dir = path.dirname(path.realpath(__file__))
         img_filepath = path.join(script_dir,'imgDetection','img2.jpg')
         img_filepath = path.abspath(img_filepath)
         px = QtGui.QPixmap(img_filepath)
-        pixmap = px.scaled(640, 360)
+        pixmap = px.scaled(313, 383)
         self.IMG_show.setPixmap(pixmap)
 
 
@@ -144,7 +144,7 @@ class Ui_MainWindow(object):
         self.stop_video.setIcon(icon1)
         self.stop_video.setIconSize(QtCore.QSize(40, 50))
         self.stop_video.setObjectName("stop_video")
-        # self.stop_video.setEnabled(False)
+        self.stop_video.setEnabled(False)
        # self.stop_video.clicked.connect(self.Lable_PressEvent)
        
         self.play_video = QtWidgets.QPushButton(self.widget_button)
@@ -170,7 +170,7 @@ class Ui_MainWindow(object):
         self.play_video.setIcon(icon2)
         self.play_video.setIconSize(QtCore.QSize(50, 50))
         self.play_video.setObjectName("play_video")
-        self.play_video.setEnabled(False)
+        
 
 
         self.open_file_video = QtWidgets.QPushButton(self.widget_button)
@@ -231,31 +231,15 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
         self.actionOpen_file = QtWidgets.QAction(MainWindow)
         self.actionOpen_file.setObjectName("actionOpen_file")
-        #self.actionOpen_file.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-
-
-        #return fileName
-
-        # self.open_file_video.clicked.connect(self.ThardStart)
-        # self.play_video.clicked.connect(self.ThardStart)
-
-        # self.th = Thread(self)
-        # self.th.changePixmap.connect(self.setImage)
-        # self.th.start()
-    
     def ThardStart(self):
         self.thardclass = Thread()
         self.thardclass.changePixmap.connect(self.setImage)
         self.thardclass.start()
        
-    # def ThardStart2(self):
-    #     self.thardclass2 = ThradClass()
-    #     self.thardclass2.start()
-       # self.thardclass.Stop()
     def Lable_PressEvent(self):
         sys.exit()
     def on_product_clicked(self):
@@ -263,14 +247,6 @@ class Ui_MainWindow(object):
     def pushButton_Minimize(self):
         print("MMMMM")
         MainWindow.setWindowFlags(QtCore.Qt.WindowTitleHint)
-    # @QtCore.pyqtSlot(QtGui.QImage) 
-    # def setImage(self, image):
-    #     self.Video.setPixmap(QtGui.QPixmap.fromImage(image))
-
-    # def closeEvent(self, event):
-    #     self.th.stop()
-    #     self.th.wait()
-    #     super().closeEvent(event)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -285,77 +261,70 @@ class Ui_MainWindow(object):
         self.pushButton_minimize.setToolTip(_translate("MainWindow", "Minimize"))
         self.label_title.setText(_translate("MainWindow", "Helmet Detection"))
         self.actionOpen_file.setText(_translate("MainWindow", "Open file"))
-#getting the live vid
-# class Thread(QtCore.QThread):
-#     changePixmap = QtCore.pyqtSignal(QtGui.QImage)
 
-#     def __init__(self, *args, **kwargs):
-#         QtCore.QThread.__init__(self, *args, **kwargs)
-#         self.flag = False
-
-#     def run(self):
-#         cap1 = cv2.VideoCapture(0)
-#         self.flag = True
-#         while self.flag:
-#             ret, frame = cap1.read()
-#             if ret:
-#                 rgb_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-#                 cvt2qt = QtGui.QImage(rgb_image.data, rgb_image.shape[1], rgb_image.shape[0], QtGui.QImage.Format_RGB888)
-#                 self.changePixmap.emit(cvt2qt)                         # I don't really understand this yet
-
-#     def stop(self):
-#         self.flag = False
-   
-# if __name__ == "__main__":
-#     import sys
-#     app = QtWidgets.QApplication(sys.argv)
-#     MainWindow = QtWidgets.QMainWindow()
-#     ui = Ui_MainWindow()
-#     ui.setupUi(MainWindow)
-#     MainWindow.show()
-#     sys.exit(app.exec_())
-
-
-#getting the live vid
 class Thread(QtCore.QThread):
     changePixmap = QtCore.pyqtSignal(QtGui.QImage)
-    # PATH =QtCore.pyqtSignal()
-    #port="01.mp4"
+    sendIMG =  QtCore.pyqtSignal(QtGui.QImage)
     def __init__(self,PATH='01.mp4',parent=None):
         super(Thread,self).__init__(parent)
-    # def __init__(self, *args, **kwargs):
-    #     QtCore.QThread.__init__(self,*args, **kwargs)
+
         self.flag = False
-        self.paTH="01.mp4"
-    # def setUpPath(self,path)  
-    #     self.Path =path
-        print(self.paTH)
+ 
     def run(self):
         print("play video")
         self.flag = True
         self.play()
 
-
     def stop(self):
         self.flag = False
+
     def on(self):
+        global file
         self.o = Prog()
-        self.s= self.o.openFileNameDialog()
-
-        self.paTH=self.s
-    
- 
+        file= self.o.openFileNameDialog()
+   
     def play(self):
-
-        print(self.paTH)
-       
-        self.cap1 = cv2.VideoCapture(self.paTH)
-      
          #self.cap1.isOpened()
+        print(file)
+        self.cap1 = cv2.VideoCapture(file) 
+
+
+        #self.helmet_cascade = cv2.CascadeClassifier('cascade/helmet_cascade.xml')
+        self.bike_cascade = cv2.CascadeClassifier('cascade/bike_cascade.xml')
+        self.i=0
         while self.flag:
-            ret, frame = self.cap1.read()
-            if ret:
+                ret, frame = self.cap1.read()
                 Frame=cv2.resize(frame, (1280, 720)) 
+                gray = cv2.cvtColor(Frame, cv2.COLOR_BGR2GRAY)
+          
+                bike = self.bike_cascade.detectMultiScale(gray,1.9,10)
+                # helmet = self.helmet_cascade.detectMultiScale(gray,1.5,30)
+                
+                for (x,y,w,h) in bike:
+                    x1=x-100
+                    y1=y-100
+                    if(w>160):
+                        cv2.rectangle(Frame,(x-100,y-100),(x+w+50,y+h+50),(255,0,0),3)
+                    #if y==350:
+                        #cv2.rectangle(Frame,(x,y),(x+w,y+h),(0,0,255),5)
+
+                   # if(((w+x)>(160+600) and (h+y)>(230+300))or((w+x)<(200+750) and (h+y)<(250+400))):
+                        
+                        #self.sendIMG.emit(Cvt2qt)
+                           #show data ID
+                        cv2.imwrite("imgDetection/img2.jpg",Frame[y1:y+h+50,x1:x+w+50])
+                        RGB_img=cv2.cvtColor(Frame[y1:y+h+50,x1:x+w+50], cv2.COLOR_BGR2RGB)
+                        Cvt2qt = QtGui.QImage(RGB_img.data, RGB_img.shape[1], RGB_img.shape[0], QtGui.QImage.Format_RGB888) 
+            #cv2.imwrite("imgDetection/img00.jpg",self.cap1)
+                        self.sendIMG.emit(Cvt2qt)
+                    
+                    # for (x,y,w,h) in helmet:
+                    #     cv2.rectangle(Frame,(x,y),(x+w,y+h),(0,0,255),2)
+                #cv2.line(Frame, (100,0), (894,332), (255,255,255), 2)
+
+                # for (x,y,w,h) in helmet:
+                #      cv2.rectangle(Frame,(x,y),(x+w,y+h),(0,0,255),2)
+                
                 rgb_image = cv2.cvtColor(Frame, cv2.COLOR_BGR2RGB)
                 cvt2qt = QtGui.QImage(rgb_image.data, rgb_image.shape[1], rgb_image.shape[0], QtGui.QImage.Format_RGB888)                                 
                 self.changePixmap.emit(cvt2qt)   
@@ -363,27 +332,53 @@ class Thread(QtCore.QThread):
                     break
                 if  self.flag == False :  
                     self.flag =False
+                    break
                     print("stop!")
            
 
-class camera :
-    def __int__(self,port):
-        self.port =port
+class Thread2(QtCore.QThread):
+    img = QtCore.pyqtSignal(QtGui.QImage)
+    def __init__(self,parent=None):
+        super(Thread2,self).__init__(parent)
+
+    def run(self):
+        while True :
+            print("66")
+        #     self.cap1 = cv2.imread('imgDetection/img2.jpg') 
+        #     self.helmet_cascade = cv2.CascadeClassifier('cascade/helmet_cascade.xml')
+        #     gray = cv2.cvtColor(self.cap1, cv2.COLOR_BGR2GRAY)
+        #     helmet = self.helmet_cascade.detectMultiScale(gray,1.4,36)
+        #     for (x,y,w,h) in helmet:
+        #         cv2.rectangle(self.cap1,(x,y),(x+w,y+h),(255,254,255),2)
+
+        #     RGB_img=cv2.cvtColor(self.cap1, cv2.COLOR_BGR2RGB)
+        #     Cvt2qt = QtGui.QImage(RGB_img.data, RGB_img.shape[1], RGB_img.shape[0], QtGui.QImage.Format_RGB888) 
+        #     #cv2.imwrite("imgDetection/img00.jpg",self.cap1)
+        #     self.img.emit(Cvt2qt)
+
 
        
 class Prog(QtWidgets.QMainWindow, Ui_MainWindow):
+    i=0
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         self.open_file_video.clicked.connect(self.On)
         self.play_video.clicked.connect(self.Start)
         self.stop_video.clicked.connect(self.Stop)
-        self.play_video.setEnabled(True)
-        
+        self.play_video.setEnabled(False)
+        self.th = Thread()
+        # self.th2 =Thread2()
+        # self.th2.start()
     def Start(self):
         print("start..")
-        self.th = Thread(self)
+        
         self.th.changePixmap.connect(self.setImage)
+        try:
+            self.th.sendIMG.connect(self.setShow)
+        except :
+            pass
+        
         self.play_video.setEnabled(False)
         self.stop_video.setEnabled(True)
         self.stop_video.setStyleSheet("width:500px;\n""color: rgb(255, 255, 255);\n""height:500px;\n""border-ridge:40px;\n""font: 15pt \"Ink Free\";\n""  border-radius: 5px;\n""background-color: rgb(54, 66, 71);")
@@ -399,37 +394,49 @@ class Prog(QtWidgets.QMainWindow, Ui_MainWindow):
         self.play_video.setStyleSheet("width:500px;\n""\n""font: 15pt \"Ink Free\";\n""color: rgb(255, 255, 255);\n""height:500px;\n""border-ridge:40px;\n""background-color: rgb(54, 66, 71);\n""")
         self.stop_video.setStyleSheet("width:500px;\n""color: rgb(255, 0, 0);\n""height:500px;\n""border-ridge:40px;\n""font: 15pt \"Ink Free\";\n""  border-radius: 5px;\n""background-color: rgb(54, 66, 71);")
     def On(self):
-        
+        self.play_video.setEnabled(True)
         self.play_video.setStyleSheet("width:500px;\n""\n""font: 15pt \"Ink Free\";\n""color: rgb(255, 255, 255);\n""height:500px;\n""border-ridge:40px;\n""background-color: rgb(54, 66, 71);\n""") 
-        self.th = Thread(self)
         self.th.on()
+
     def openFileNameDialog(self):
         
         options = QFileDialog.Options()
         fileName, _ = QFileDialog.getOpenFileName(self,"Video", "","All Files (*);;Video Files (*.mp4)", options=options)
-        # self.th = Thread(self)
-        # self.th.changePixmap.connect(self.setImage)
-        # self.th.start()
+
         if fileName:
-            self.play_video.setEnabled(True)
+            
             self.path = fileName
             self.Start()
 
-            # QtCore.QThread.sleep(20)
-            # self.th.stop
-            # self.th.path(fileName)
         return fileName
+
+    # def SHOW_IMG(self):
+    #     print(self.i)
+    #     self.i+=1
+
+    # @QtCore.pyqtSlot(QtGui.QImage) 
+
+
     @QtCore.pyqtSlot(QtGui.QImage) 
     def setImage(self, image):
        
         self.Video.setPixmap(QtGui.QPixmap.fromImage(image))
 
-    # def pp(self,pa)
+    def setShow(self,image):
 
+        # px = QtGui.QPixmap(image)
+        # pixmap = px.scaled(315, 383)
+        # self.IMG_show.setPixmap(pixmap)
+        script_dir = path.dirname(path.realpath(__file__))
+        img_filepath = path.join(script_dir,'imgDetection','img2.jpg')
+        img_filepath = path.abspath(img_filepath)
+        px = QtGui.QPixmap(img_filepath)
+        pixmap = px.scaled(313, 383)
+        self.IMG_show.setPixmap(pixmap)
+    
     def closeEvent(self, event):
         self.th.stop()
         self.th.wait()
-        # self.th.openfile()
         super().closeEvent(event)
 
 if __name__=='__main__':
