@@ -8,7 +8,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 #from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton,QLabel,QFileDialog
 from PyQt5.QtCore import pyqtSlot
-
+import time
 
 class Ui_MainWindow(object):
     FileName = "file error"
@@ -75,7 +75,7 @@ class Ui_MainWindow(object):
 
 
         self.Show_img = QtWidgets.QFrame(self.widget)
-        self.Show_img.setGeometry(QtCore.QRect(25, 50,313,383)) #set lacation x y,size x y
+        self.Show_img.setGeometry(QtCore.QRect(100, 50,413,483)) #set lacation x y,size x y
         self.Show_img.setStyleSheet("background-color: rgb(22, 24, 25);\n""image: url(icon/picture_filled_100px.png);")
         self.Show_img.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.Show_img.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -84,15 +84,15 @@ class Ui_MainWindow(object):
       
 
         self.IMG_show = QtWidgets.QLabel(self.Show_img)
-        self.IMG_show.setGeometry(QtCore.QRect(0, 0,313,383))
+        self.IMG_show.setGeometry(QtCore.QRect(50, 50,313,383))
         self.IMG_show.setText("")
         self.IMG_show.setObjectName("IMG_show")
-        script_dir = path.dirname(path.realpath(__file__))
-        img_filepath = path.join(script_dir,'imgDetection','img2.jpg')
-        img_filepath = path.abspath(img_filepath)
-        px = QtGui.QPixmap(img_filepath)
-        pixmap = px.scaled(313, 383)
-        self.IMG_show.setPixmap(pixmap)
+        # script_dir = path.dirname(path.realpath(__file__))
+        # img_filepath = path.join(script_dir,'imgDetection','img2.jpg')
+        # img_filepath = path.abspath(img_filepath)
+        # px = QtGui.QPixmap(img_filepath)
+        # pixmap = px.scaled(313, 383)
+        # self.IMG_show.setPixmap(pixmap)
 
 
         self.frame_4 = QtWidgets.QFrame(self.Show_img)
@@ -104,27 +104,27 @@ class Ui_MainWindow(object):
 
 
         self.label_icon_helmet = QtWidgets.QLabel(self.widget)
-        self.label_icon_helmet.setGeometry(QtCore.QRect(90, 530, 121, 101)) #set lacation x y,size x y
+        self.label_icon_helmet.setGeometry(QtCore.QRect(90, 550, 121, 101)) #set lacation x y,size x y
         self.label_icon_helmet.setStyleSheet("image: url(icon/motorbike_helmet_filled_100px.png);")
         self.label_icon_helmet.setText("")
         self.label_icon_helmet.setObjectName("label_icon_helmet")
 
 
         self.label_icon_person = QtWidgets.QLabel(self.widget)
-        self.label_icon_person.setGeometry(QtCore.QRect(90, 650, 121, 101)) #set lacation x y,size x y
+        self.label_icon_person.setGeometry(QtCore.QRect(90, 660, 121, 101)) #set lacation x y,size x y
         self.label_icon_person.setStyleSheet("image: url(icon/user_male_filled_100px.png);")
         self.label_icon_person.setText("")
         self.label_icon_person.setObjectName("label_icon_person")
 
 
         self.label_helmet = QtWidgets.QLabel(self.widget)
-        self.label_helmet.setGeometry(QtCore.QRect(230, 550, 211, 51)) #set lacation x y,size x y
+        self.label_helmet.setGeometry(QtCore.QRect(230, 560, 211, 51)) #set lacation x y,size x y
         self.label_helmet.setStyleSheet("font: 24pt \"Ink Free\";\n""color: rgb(255, 255, 255);")
         self.label_helmet.setObjectName("label_helmet")
 
 
         self.label_no_helmet = QtWidgets.QLabel(self.widget)
-        self.label_no_helmet.setGeometry(QtCore.QRect(220, 680, 201, 51)) #set lacation x y,size x y
+        self.label_no_helmet.setGeometry(QtCore.QRect(220, 690, 201, 51)) #set lacation x y,size x y
         self.label_no_helmet.setStyleSheet("font: 24pt \"Ink Free\";\n""color: rgb(255, 255, 255);")
         self.label_no_helmet.setObjectName("label_no_helmet")
 
@@ -271,7 +271,6 @@ class Thread(QtCore.QThread):
         self.flag = False
  
     def run(self):
-        print("play video")
         self.flag = True
         self.play()
 
@@ -284,12 +283,7 @@ class Thread(QtCore.QThread):
         file= self.o.openFileNameDialog()
    
     def play(self):
-         #self.cap1.isOpened()
-        print(file)
         self.cap1 = cv2.VideoCapture(file) 
-
-
-        #self.helmet_cascade = cv2.CascadeClassifier('cascade/helmet_cascade.xml')
         self.bike_cascade = cv2.CascadeClassifier('cascade/bike_cascade.xml')
         self.i=0
         while self.flag:
@@ -298,33 +292,22 @@ class Thread(QtCore.QThread):
                 gray = cv2.cvtColor(Frame, cv2.COLOR_BGR2GRAY)
           
                 bike = self.bike_cascade.detectMultiScale(gray,1.9,10)
-                # helmet = self.helmet_cascade.detectMultiScale(gray,1.5,30)
                 
                 for (x,y,w,h) in bike:
+                   
                     x1=x-100
                     y1=y-100
                     if(w>160):
+                        print(self.i)
+                        self.i+=1
                         cv2.rectangle(Frame,(x-100,y-100),(x+w+50,y+h+50),(255,0,0),3)
-                    #if y==350:
-                        #cv2.rectangle(Frame,(x,y),(x+w,y+h),(0,0,255),5)
-
-                   # if(((w+x)>(160+600) and (h+y)>(230+300))or((w+x)<(200+750) and (h+y)<(250+400))):
-                        
-                        #self.sendIMG.emit(Cvt2qt)
-                           #show data ID
-                        cv2.imwrite("imgDetection/img2.jpg",Frame[y1:y+h+50,x1:x+w+50])
-                        RGB_img=cv2.cvtColor(Frame[y1:y+h+50,x1:x+w+50], cv2.COLOR_BGR2RGB)
-                        Cvt2qt = QtGui.QImage(RGB_img.data, RGB_img.shape[1], RGB_img.shape[0], QtGui.QImage.Format_RGB888) 
-            #cv2.imwrite("imgDetection/img00.jpg",self.cap1)
-                        self.sendIMG.emit(Cvt2qt)
-                    
-                    # for (x,y,w,h) in helmet:
-                    #     cv2.rectangle(Frame,(x,y),(x+w,y+h),(0,0,255),2)
-                #cv2.line(Frame, (100,0), (894,332), (255,255,255), 2)
-
-                # for (x,y,w,h) in helmet:
-                #      cv2.rectangle(Frame,(x,y),(x+w,y+h),(0,0,255),2)
-                
+                        if (self.i==7) :
+                            cv2.imwrite("imgDetection/img2.jpg",Frame[y1:y+h+50,x1:x+w+50])
+                            RGB_img=cv2.cvtColor(Frame[y1:y+h+50,x1:x+w+50], cv2.COLOR_BGR2RGB)
+                            Cvt2qt = QtGui.QImage(RGB_img.data, RGB_img.shape[1], RGB_img.shape[0], QtGui.QImage.Format_RGB888) 
+                            self.sendIMG.emit(Cvt2qt)
+                if(self.i > 7):
+                    self.i=0
                 rgb_image = cv2.cvtColor(Frame, cv2.COLOR_BGR2RGB)
                 cvt2qt = QtGui.QImage(rgb_image.data, rgb_image.shape[1], rgb_image.shape[0], QtGui.QImage.Format_RGB888)                                 
                 self.changePixmap.emit(cvt2qt)   
@@ -410,20 +393,14 @@ class Prog(QtWidgets.QMainWindow, Ui_MainWindow):
 
         return fileName
 
-    # def SHOW_IMG(self):
-    #     print(self.i)
-    #     self.i+=1
-
-    # @QtCore.pyqtSlot(QtGui.QImage) 
-
-
     @QtCore.pyqtSlot(QtGui.QImage) 
     def setImage(self, image):
        
         self.Video.setPixmap(QtGui.QPixmap.fromImage(image))
 
     def setShow(self,image):
-
+        # start_time = time.time()
+        # print("--- %s seconds ---" % (time.time() - start_time))
         # px = QtGui.QPixmap(image)
         # pixmap = px.scaled(315, 383)
         # self.IMG_show.setPixmap(pixmap)
