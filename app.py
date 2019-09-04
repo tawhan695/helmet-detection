@@ -291,23 +291,26 @@ class Thread(QtCore.QThread):
                 Frame=cv2.resize(frame, (1280, 720)) 
                 gray = cv2.cvtColor(Frame, cv2.COLOR_BGR2GRAY)
           
-                bike = self.bike_cascade.detectMultiScale(gray,1.9,10)
-                
+                bike = self.bike_cascade.detectMultiScale(gray,1.9,3)
+                self.cu =0
                 for (x,y,w,h) in bike:
                    
                     x1=x-100
                     y1=y-100
+                    self.cu=1
                     if(w>160):
                         print(self.i)
                         self.i+=1
                         cv2.rectangle(Frame,(x-100,y-100),(x+w+50,y+h+50),(255,0,0),3)
-                        if (self.i==7) :
+                        if (self.i==5) :
                             cv2.imwrite("imgDetection/img2.jpg",Frame[y1:y+h+50,x1:x+w+50])
                             RGB_img=cv2.cvtColor(Frame[y1:y+h+50,x1:x+w+50], cv2.COLOR_BGR2RGB)
                             Cvt2qt = QtGui.QImage(RGB_img.data, RGB_img.shape[1], RGB_img.shape[0], QtGui.QImage.Format_RGB888) 
                             self.sendIMG.emit(Cvt2qt)
-                if(self.i > 7):
+                            
+                if(self.cu==0):
                     self.i=0
+                #print(self.cu)
                 rgb_image = cv2.cvtColor(Frame, cv2.COLOR_BGR2RGB)
                 cvt2qt = QtGui.QImage(rgb_image.data, rgb_image.shape[1], rgb_image.shape[0], QtGui.QImage.Format_RGB888)                                 
                 self.changePixmap.emit(cvt2qt)   
