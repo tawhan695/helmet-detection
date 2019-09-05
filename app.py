@@ -9,6 +9,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton,QLabel,QFileDialog
 from PyQt5.QtCore import pyqtSlot
 import time
+from random import *
 
 class Ui_MainWindow(object):
     FileName = "file error"
@@ -304,7 +305,7 @@ class Thread(QtCore.QThread):
                         Frame=cv2.resize(frame, (1280, 720)) 
                         gray = cv2.cvtColor(Frame, cv2.COLOR_BGR2GRAY)
                 
-                        bike = self.bike_cascade.detectMultiScale(gray,1.3,3)
+                        bike = self.bike_cascade.detectMultiScale(gray,1.3,10)
                         self.cu =0
                         for (x,y,w,h) in bike:
                         
@@ -316,7 +317,14 @@ class Thread(QtCore.QThread):
                                 self.i+=1
                                 cv2.rectangle(Frame,(x-100,y-100),(x+w+50,y+h+50),(255,0,0),3)
                                 if (self.i==5) :
+                                    # ran = random(1,9999999)
+                                    # fileName="cap"+str(ran)
+                                    # print(fileName)
+                                    
+                                    #x = randint(1, 100)    # Pick a random number between 1 and 100.
+                                    # print(x)
                                     cv2.imwrite("imgDetection/img2.jpg",Frame[y1:y+h+50,x1:x+w+50])
+                                    #cv2.imwrite("cap/"+fileName+".jpg",Frame[y1:y+h+50,x1:x+w+50])
                                     prog.show_i()
                                     #prog.label_helmet.setText("4444444")
 
@@ -388,13 +396,15 @@ class Prog(QtWidgets.QMainWindow, Ui_MainWindow):
         helmet = helmet_cascade.detectMultiScale(gray,1.3,10)
         no_helmet = no_helmet_cascade.detectMultiScale(gray,1.9,25)
         coun =0
-        for (x,y,w,h) in helmet:
-            cv2.rectangle(cap,(x,y),(x+w,y+h),(0,255,0),4)
-            coun =coun+1
-        for (x,y,w,h) in no_helmet:
-            cv2.rectangle(cap,(x,y),(x+w,y+h),(0,0,255),4)
+        # for (x,y,w,h) in helmet:
+        #     cv2.rectangle(cap,(x,y),(x+w,y+h),(0,255,0),4)
+        #     coun =coun+1
+        # for (x,y,w,h) in no_helmet:
+        #     cv2.rectangle(cap,(x,y),(x+w,y+h),(0,0,255),4)
            # coun =coun+1
-        cv2.imwrite("imgDetection/show.jpg",cap)
+        x = randint(100,9999999)
+        print(x)
+        cv2.imwrite("cap1/b"+str(x)+".jpg",cap)
         #self.count_Helmet(1)
         #if (coun>0) :
             #
