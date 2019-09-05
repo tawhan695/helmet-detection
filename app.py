@@ -404,7 +404,7 @@ class Prog(QtWidgets.QMainWindow, Ui_MainWindow):
            # coun =coun+1
         x = randint(100,9999999)
         print(x)
-        cv2.imwrite("cap1/b"+str(x)+".jpg",cap)
+        cv2.imwrite("cap1/b"+str(x)+".jpg",gray)
         #self.count_Helmet(1)
         #if (coun>0) :
             #
