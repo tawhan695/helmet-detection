@@ -304,7 +304,7 @@ class Thread(QtCore.QThread):
                         Frame=cv2.resize(frame, (1280, 720)) 
                         gray = cv2.cvtColor(Frame, cv2.COLOR_BGR2GRAY)
                 
-                        bike = self.bike_cascade.detectMultiScale(gray,2,5)
+                        bike = self.bike_cascade.detectMultiScale(gray,1.3,3)
                         self.cu =0
                         for (x,y,w,h) in bike:
                         
@@ -382,10 +382,10 @@ class Prog(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def show_i(self):
         cap = cv2.imread('imgDetection/img2.jpg')
-        helmet_cascade = cv2.CascadeClassifier('cascade/helmet_cascade.xml')
+        helmet_cascade = cv2.CascadeClassifier('cascade/helmet3_cascade.xml')
         no_helmet_cascade = cv2.CascadeClassifier('cascade/no_helmet_cascade.xml')
         gray = cv2.cvtColor(cap, cv2.COLOR_BGR2GRAY)
-        helmet = helmet_cascade.detectMultiScale(gray,1.9,25)
+        helmet = helmet_cascade.detectMultiScale(gray,1.3,10)
         no_helmet = no_helmet_cascade.detectMultiScale(gray,1.9,25)
         coun =0
         for (x,y,w,h) in helmet:

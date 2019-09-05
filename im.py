@@ -9,7 +9,7 @@ img = cv2.imread('imgDetection/img34.jpg')
 # Convert into grayscale
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 # Detect faces
-helmet = helmet_cascade.detectMultiScale(gray,1.3,3)
+helmet = helmet_cascade.detectMultiScale(gray,1.3,10)
 # Draw rectangle around the faces
 
 c=0
