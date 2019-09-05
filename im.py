@@ -3,7 +3,7 @@ import cv2
 # Load the cascade
 #face_cascade = cv2.CascadeClassifier('cascade.xml')
 #cap1 = cv2.imread('imgDetection/img2.jpg') 
-helmet_cascade = cv2.CascadeClassifier('cascade/h1.xml')
+helmet_cascade = cv2.CascadeClassifier('cascade/helmet3_cascade.xml')
 # Read the input image
 img = cv2.imread('imgDetection/img34.jpg') 
 # Convert into grayscale
