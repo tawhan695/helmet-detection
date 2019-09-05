@@ -318,6 +318,8 @@ class Thread(QtCore.QThread):
                                 if (self.i==5) :
                                     cv2.imwrite("imgDetection/img2.jpg",Frame[y1:y+h+50,x1:x+w+50])
                                     prog.show_i()
+                                    #prog.label_helmet.setText("4444444")
+
                                     RGB_img=cv2.cvtColor(Frame[y1:y+h+50,x1:x+w+50], cv2.COLOR_BGR2RGB)
                                     Cvt2qt = QtGui.QImage(RGB_img.data, RGB_img.shape[1], RGB_img.shape[0], QtGui.QImage.Format_RGB888) 
                                     self.sendIMG.emit(Cvt2qt)
@@ -340,27 +342,23 @@ class Thread(QtCore.QThread):
 # class Thread2(QtCore.QThread):
 #     img = QtCore.pyqtSignal(QtGui.QImage)
 #     def __init__(self,parent=None):
-#         super(Thread2,self).__init__(parent)
+#          super(Thread2,self).__init__(parent)
 
 #     def run(self):
-#        # while True :
-#         print("show img")
-#         # self.cap1 = cv2.imread('imgDetection/img2.jpg') 
-#         # self.helmet_cascade = cv2.CascadeClassifier('cascade/helmet_cascade.xml')
-#         # gray = cv2.cvtColor(self.cap1, cv2.COLOR_BGR2GRAY)
-#         # helmet = self.helmet_cascade.detectMultiScale(gray,1.4,36)
-#         # for (x,y,w,h) in helmet:
-#         #     cv2.rectangle(self.cap1,(x,y),(x+w,y+h),(255,254,255),2)
-
-
-
-#         # RGB_img=cv2.cvtColor(self.cap1, cv2.COLOR_BGR2RGB)
-#         # Cvt2qt = QtGui.QImage(RGB_img.data, RGB_img.shape[1], RGB_img.shape[0], QtGui.QImage.Format_RGB888) 
-#         # cv2.imwrite("imgDetection/img00.jpg",self.cap1)
-#         # #px = QtGui.QPixmap(image)
-#         # #pixmap = px.scaled(313, 383)
-#         # # self.IMG_show.setPixmap(Cvt2qt)
-#         # self.img.emit(Cvt2qt)
+#         while True :
+#             script_dir = path.dirname(path.realpath(__file__))
+#             img_filepath = path.join(script_dir,'imgDetection','show.jpg')
+#             #print(img_filepath)
+#             img_filepath = path.abspath(img_filepath)
+#             #print(img_filepath)
+#             px = QtGui.QPixmap(img_filepath)
+#             pixmap = px.scaled(313, 383)
+#             self.img.emit(px)
+            
+    
+    @QtCore.pyqtSlot() 
+    def setImage2(self):
+        print("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
 
 
        
@@ -377,7 +375,8 @@ class Prog(QtWidgets.QMainWindow, Ui_MainWindow):
         self.stop_video.clicked.connect(self.Stop)
         self.play_video.setEnabled(False)
         self.th = Thread()
-        #self.label_helmet.setText(" 1")       # self.th2 =Thread2()
+        #self.label_helmet.setText(" 1")      
+        # self.th2 =Thread2()
         # self.th2.start()
 
 
@@ -386,8 +385,8 @@ class Prog(QtWidgets.QMainWindow, Ui_MainWindow):
         helmet_cascade = cv2.CascadeClassifier('cascade/helmet_cascade.xml')
         no_helmet_cascade = cv2.CascadeClassifier('cascade/no_helmet_cascade.xml')
         gray = cv2.cvtColor(cap, cv2.COLOR_BGR2GRAY)
-        helmet = helmet_cascade.detectMultiScale(gray,1.3,80)
-        no_helmet = no_helmet_cascade.detectMultiScale(gray,1.3,60)
+        helmet = helmet_cascade.detectMultiScale(gray,1.9,25)
+        no_helmet = no_helmet_cascade.detectMultiScale(gray,1.9,25)
         coun =0
         for (x,y,w,h) in helmet:
             cv2.rectangle(cap,(x,y),(x+w,y+h),(0,255,0),4)
@@ -461,15 +460,6 @@ class Prog(QtWidgets.QMainWindow, Ui_MainWindow):
         self.Video.setPixmap(QtGui.QPixmap.fromImage(image))
 
     def setShow(self,img):
-        #self.show_i()
-        #print("n:"+str(ccc))
-
-        #if (coun>0) :
-            #
-        #self.setHelmet(coun)
-        #self.setHelmet(coun)
-        #
-        # cv2.waitKey(0)
 
         script_dir = path.dirname(path.realpath(__file__))
         img_filepath = path.join(script_dir,'imgDetection','show.jpg')
@@ -479,38 +469,10 @@ class Prog(QtWidgets.QMainWindow, Ui_MainWindow):
         px = QtGui.QPixmap(img_filepath)
         pixmap = px.scaled(313, 383)
         self.IMG_show.setPixmap(pixmap)
-        #self.count_Helmet(ccc)
 
-        # #cap = cv2.imread('imgDetection/img2.jpg')
-        # # helmet_cascade = cv2.CascadeClassifier('cascade/helmet_2_cascade.xml')
-        # # gray = cv2.cvtColor(cap, cv2.COLOR_BGR2GRAY)
-        # # helmet = helmet_cascade.detectMultiScale(gray,1.9,20)
-        # # coun =0
-        # # for (x,y,w,h) in helmet:
-        # #     cv2.rectangle(cap,(x,y),(x+w,y+h),(0,255,0),4)
-        # #     coun =coun+1
-        
-        # # cv2.imwrite("imgDetection/show.jpg",cap)
-        # # cv2.waitKey(0)
-        
-       # self.label_helmet.setText("With helmet : "+str(ccc))
-
-
-        # script_dir = path.dirname(path.realpath(__file__))
-        # img_filepath = path.join(script_dir,'imgDetection','show.jpg')
-        # img_filepath = path.abspath(img_filepath)
-        # px = QtGui.QPixmap(img_filepath)
-        # #pixmap = px.scaled(313, 383)
-        # self.IMG_show.setPixmap(px)
-        # # if coun>0 :
-        
-        
-        #
-        
-        # print(" show ")
-    # def num(self):
-    #     global nh
-
+        # self.prog = Prog()
+        # self.prog.show_i()
+        # self.count_Helmet(1)
 
     def closeEvent(self, event):
         self.th.stop()
