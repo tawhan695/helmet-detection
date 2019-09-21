@@ -46,7 +46,7 @@ for imagePath in imagePaths:
         cv2.rectangle(gray, (x, y), (x+w, y+h), (255, 255, 255), 1)
         c=c+1
         x1 = randint(1,9999999) 
-        cv2.imwrite('helmet'+str(x1)+".png",gray[y:y+h,x:x+w])#37
+        cv2.imwrite('imgDetection/h/helmet'+str(x1)+".png",gray[y:y+h,x:x+w])#37
         cv2.imshow('show2',gray[y:y+h,x:x+w])
         #cv2.imwrite("/data/helmet/"+str(x1)+".jpg",gray[y:y+h,x:x+w])#37
         m+=1
@@ -55,17 +55,17 @@ for imagePath in imagePaths:
         cv2.rectangle(img, (x, y), (x+w, y+h), (0, 0, 255), 2)
         c2+=1
         x12 = randint(1,9999999) 
-        cv2.imwrite("no-helmet/1"+str(x12)+".jpg",gray[y:y+h,x:x+w])#37
+        cv2.imwrite("imgDetection/nh/no-helmet/1"+str(x12)+".jpg",gray[y:y+h,x:x+w])#37
         cv2.imshow('show3',gray[y:y+h,x:x+w])
         m2+=1
 
     if(c==0):
         x1 = randint(100,9999999) 
-        cv2.imwrite("unknown1/1"+str(BASE)+".jpg",gray)#751
+        cv2.imwrite("imgDetection/u/unknown1"+str(BASE)+".jpg",gray)#751
         cv2.imshow('show4',gray)
     if(c2==0):
         x1 = randint(100,9999999) 
-        cv2.imwrite("unknown2/1"+str(BASE)+".jpg",gray)#751
+        cv2.imwrite("imgDetection/u/unknown2"+str(BASE)+".jpg",gray)#751
         cv2.imshow('show5',gray)
     
     print(BASE)
