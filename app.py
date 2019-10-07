@@ -108,6 +108,12 @@ class Ui_MainWindow(object):
         self.label_no_helmet.setStyleSheet("font: 24pt \"Ink Free\";\n""color: rgb(255, 255, 255);")
         self.label_no_helmet.setObjectName("label_no_helmet")
 
+        self.label_Accuracy_percent = QtWidgets.QLabel(self.widget)
+        self.label_Accuracy_percent.setGeometry(QtCore.QRect(220, 800, 501, 51)) #set lacation x y,size x y
+        self.label_Accuracy_percent.setStyleSheet("font: 24pt \"Ink Free\";\n""color: rgb(255, 255, 255);")
+        self.label_Accuracy_percent.setObjectName("label_Accuracy_percent")
+        self.label_Accuracy_percent.setText("Accuracy percent  ?  %")
+
         self.widget_button = QtWidgets.QWidget(self.centralwidget)
         self.widget_button.setGeometry(QtCore.QRect(25, 860, 1280, 121)) #set lacation x y,size x y
         self.widget_button.setStyleSheet("background-color:rgb(24, 28, 31);\n""  border-radius: 10px;")
@@ -256,6 +262,7 @@ class Thread(QtCore.QThread):
         self.cap1 = cv2.VideoCapture(file) 
         self.bike_cascade = cv2.CascadeClassifier('cascade/bike_cascade.xml')
         self.i=0
+        star = 0
         while self.flag:
                 
                     ret, frame = self.cap1.read()
@@ -273,8 +280,7 @@ class Thread(QtCore.QThread):
                             if(w>160):
                                 self.i+=1
                                 cv2.rectangle(Frame,(x-100,y-100),(x+w+50,y+h+50),(255,0,0),4)
-                                if (self.i==5) :
-     
+                                if (self.i==4 ) :
                                     cv2.imwrite("imgDetection/img2.jpg",Frame[y1:y+h+50,x1:x+w+50])
                                     prog.show_i()                                 
                                     RGB_img=cv2.cvtColor(Frame[y1:y+h+50,x1:x+w+50], cv2.COLOR_BGR2RGB)
@@ -304,6 +310,7 @@ class Prog(QtWidgets.QMainWindow, Ui_MainWindow):
     No_helmetN = 0
     HelmetN =0
     a = [0] * 2
+    Detect=[0]* 2
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -318,12 +325,13 @@ class Prog(QtWidgets.QMainWindow, Ui_MainWindow):
     def show_i(self):
         cap = cv2.imread('imgDetection/img2.jpg')
         helmet_cascade = cv2.CascadeClassifier('cascade/helmet7_cascade.xml')
-        no_helmet_cascade = cv2.CascadeClassifier('cascade/test3_cascade.xml')
+        no_helmet_cascade = cv2.CascadeClassifier('cascade/no_helmet.xml')
         gray = cv2.cvtColor(cap, cv2.COLOR_BGR2GRAY)
         helmet = helmet_cascade.detectMultiScale(gray,1.1,10)
-        no_helmet = no_helmet_cascade.detectMultiScale(gray,3,50)
+        no_helmet = no_helmet_cascade.detectMultiScale(gray,1.5,10)
         coun_helmet =0
         coun_no_helmet=0
+        self.Detect[1]+=1
         for (x,y,w,h) in helmet:
             cv2.rectangle(cap,(x,y),(x+w,y+h),(0,255,0),2)
             coun_helmet +=1
@@ -345,6 +353,7 @@ class Prog(QtWidgets.QMainWindow, Ui_MainWindow):
         if (coun_helmet==0 and coun_no_helmet==0) :
             r=randint(11111,9999999)
             cv2.imwrite("data/unknown1/unknown-"+str(r)+".jpg",cap)
+            self.Detect[0]+=1
 
     def count_Helmet(self,h):
         self.HelmetN += h
@@ -398,11 +407,23 @@ class Prog(QtWidgets.QMainWindow, Ui_MainWindow):
         px = QtGui.QPixmap(img_filepath)
         pixmap = px.scaled(313, 383)
         self.IMG_show.setPixmap(pixmap)
-        print("#"+str(self.a[0]))
-        print("#"+str(self.a[1]))
+        print("มีหวมก = "+str(self.a[0]))
+        print("ไม่มีหมวก = "+str(self.a[1]))
+        print("ทั้งหมดที่ตรวจเจอ = "+str(self.Detect[1]))
 
         self.label_helmet.setText("With helmet : "+str(self.a[0]))
         self.label_no_helmet.setText("No helmet : "+str(self.a[1]))
+        
+        value =0
+        
+        sub = self.a[0]+self.a[1]
+        div =sub/self.Detect[1]
+        mul =div*100
+        print(' มี + ไม่มี = '+str(sub))
+        print(' หาร  = '+str(div))
+        print(' คูน  = '+str(mul))
+
+        self.label_Accuracy_percent.setText("Accuracy percent  "+str(int(mul))+" %")
 
     def closeEvent(self, event):
         self.th.stop()
