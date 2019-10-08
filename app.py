@@ -368,10 +368,10 @@ class Prog(QtWidgets.QMainWindow, Ui_MainWindow):
     def Start(self):
 
 
-        a[0]=0
-        Detect[0]=0
-        a[1]=0
-        Detect[1]=0
+        self.a[0]=0
+        self.Detect[0]=0
+        self.a[1]=0
+        self.Detect[1]=0
         self.th.changePixmap.connect(self.setImage)
         self.th.sendIMG.connect(self.setShow)
 
