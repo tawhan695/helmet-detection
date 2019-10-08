@@ -327,8 +327,8 @@ class Prog(QtWidgets.QMainWindow, Ui_MainWindow):
         helmet_cascade = cv2.CascadeClassifier('cascade/helmet.xml')
         no_helmet_cascade = cv2.CascadeClassifier('cascade/no_helmet.xml')
         gray = cv2.cvtColor(cap, cv2.COLOR_BGR2GRAY)
-        helmet = helmet_cascade.detectMultiScale(gray,scaleFactor=2.5, minNeighbors=25, minSize=(50,50),maxSize=(55,55))
-        no_helmet = no_helmet_cascade.detectMultiScale(gray,scaleFactor=2.0, minNeighbors=10 ,minSize=(50,50),maxSize=(55,55))  #ถ้าหมวกไม่แม่นให้ ให้ใช้ตัวล่าง
+        helmet = helmet_cascade.detectMultiScale(gray,scaleFactor=2.1, minNeighbors=23, minSize=(50,50),maxSize=(55,55))
+        no_helmet = no_helmet_cascade.detectMultiScale(gray,scaleFactor=1.5, minNeighbors=20 ,minSize=(50,50),maxSize=(55,55))  #ถ้าหมวกไม่แม่นให้ ให้ใช้ตัวล่าง
         #no_helmet = no_helmet_cascade.detectMultiScale(gray,scaleFactor=1.5, minNeighbors=10 ,minSize=(50,50),maxSize=(55,55))
         coun_helmet =0
         coun_no_helmet=0
@@ -366,6 +366,12 @@ class Prog(QtWidgets.QMainWindow, Ui_MainWindow):
         print('no helmet : '+str(self.No_helmetN))
         self.a[1]=self.No_helmetN
     def Start(self):
+
+
+        a[0]=0
+        Detect[0]=0
+        a[1]=0
+        Detect[1]=0
         self.th.changePixmap.connect(self.setImage)
         self.th.sendIMG.connect(self.setShow)
 
