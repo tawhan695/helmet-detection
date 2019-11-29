@@ -112,13 +112,13 @@ class Ui_MainWindow(object):
         self.NODETRCT.setGeometry(QtCore.QRect(220, 790, 501, 51)) #set lacation x y,size x y
         self.NODETRCT.setStyleSheet("font: 24pt \"Ink Free\";\n""color: rgb(255, 255, 255);")
         self.NODETRCT.setObjectName("NODETRCT")
-        self.NODETRCT.setText("Not detected :  ?  %")
+        self.NODETRCT.setText("Not detected :  ?  ")
 
         self.total = QtWidgets.QLabel(self.widget)
         self.total.setGeometry(QtCore.QRect(220, 860, 501, 51)) #set lacation x y,size x y
         self.total.setStyleSheet("font: 24pt \"Ink Free\";\n""color: rgb(255, 255, 255);")
         self.total.setObjectName("total")
-        self.total.setText("Total :  ?  %")
+        self.total.setText("Total :  ?  ")
 
         self.widget_button = QtWidgets.QWidget(self.centralwidget)
         self.widget_button.setGeometry(QtCore.QRect(25, 860, 1280, 121)) #set lacation x y,size x y
@@ -266,6 +266,7 @@ class Thread(QtCore.QThread):
     def play(self):
         prog = Prog()
         #self.cap1 = cv2.VideoCapture(0) 
+        #
         self.cap1 = cv2.VideoCapture(file) 
         self.bike_cascade = cv2.CascadeClassifier('cascade/bike_cascade.xml')
         self.i=0
@@ -301,8 +302,8 @@ class Thread(QtCore.QThread):
                         if((self.cu==0)or(self.i>10)):
                             self.i=0
                         #print(self.cu)
-                        cv2.line(Frame, (1300, 600), (0, 600), (0,255,0), 5)
-                        cv2.line(Frame, (1300, 300), (0, 300), (0,255,0), 5) 
+                        cv2.line(Frame, (700, 0), (700, 700), (0,255,0), 5)
+                       # cv2.line(Frame, (1300, 300), (0, 300), (0,255,0), 5) 
                         rgb_image = cv2.cvtColor(Frame, cv2.COLOR_BGR2RGB)
                         cvt2qt = QtGui.QImage(rgb_image.data, rgb_image.shape[1], rgb_image.shape[0], QtGui.QImage.Format_RGB888)                                 
                         self.changePixmap.emit(cvt2qt)  
@@ -430,7 +431,7 @@ class Prog(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_no_helmet.setText("No helmet : "+str(self.a[1]))
         
         value =0
-        
+        print("dsfsdf"+self.a[1])
         sub = self.a[0]+self.a[1]
         div =sub/self.Detect[1]
         mul =div*100
@@ -438,8 +439,8 @@ class Prog(QtWidgets.QMainWindow, Ui_MainWindow):
         print(' หาร  = '+str(div))
         print(' คูน  = '+str(mul))
 
-        self.NODETRCT.setText("Not detected :  "+str(int(mul))+" %")
-        self.total.setText("Total : "+str(int(mul))+" %")
+        self.NODETRCT.setText("Not detected :  "+str(int(mul))+" ")
+        self.total.setText("Total : "+str(int(mul))+" ")
 
     def closeEvent(self, event):
         self.th.stop()
