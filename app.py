@@ -5,16 +5,16 @@ import cv2
 import numpy as np
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-#from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton,QLabel,QFileDialog
 from PyQt5.QtCore import pyqtSlot
 import time
 from random import *
 
+
+
 class Ui_MainWindow(object):
     FileName = "file error"
     def setupUi(self, MainWindow):
-        #print(object)
         MainWindow.setObjectName("MainWindow")
         MainWindow.setWindowModality(QtCore.Qt.NonModal)
         MainWindow.resize(1920, 1080) #set size frame 1080p hd
@@ -39,7 +39,6 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
 
-
         self.frame_video = QtWidgets.QFrame(self.centralwidget)
         self.frame_video.setGeometry(QtCore.QRect(25, 120, 1280, 720)) #set lacation x y,size x y
         self.frame_video.setStyleSheet("background-color: rgb(22, 24, 25);\n""image: url(icon/video_100px.png);\n""\n""")
@@ -47,16 +46,11 @@ class Ui_MainWindow(object):
         self.frame_video.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_video.setObjectName("frame_video")
 
-
         self.Video = QtWidgets.QLabel(self.frame_video)
         self.Video.setGeometry(QtCore.QRect(0, 0, 1280, 720))
         self.Video.setText("")
         self.Video.setScaledContents(True)
         self.Video.setObjectName("Video")
-         # here is where I want to put the image.
-
-
-
 
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
         self.label_4.setGeometry(QtCore.QRect(0, 0, 1921, 71)) #set lacation x y,size x y
@@ -64,37 +58,25 @@ class Ui_MainWindow(object):
         self.label_4.setText("")
         self.label_4.setObjectName("label_4")
 
-
         self.widget = QtWidgets.QWidget(self.centralwidget)
         self.widget.setGeometry(QtCore.QRect(1290, 70, 615, 1020)) #set lacation x y,size x y
         font = QtGui.QFont()
         font.setStrikeOut(False)
         self.widget.setFont(font)
         self.widget.setAcceptDrops(False)
-        #self.widget.setStyleSheet("background-color: rgb(35, 41, 45);")
         self.widget.setObjectName("widget")
-
 
         self.Show_img = QtWidgets.QFrame(self.widget)
         self.Show_img.setGeometry(QtCore.QRect(100, 50,413,483)) #set lacation x y,size x y
         self.Show_img.setStyleSheet("background-color: rgb(22, 24, 25);\n""image: url(icon/picture_filled_100px.png);")
         self.Show_img.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.Show_img.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.Show_img.setObjectName("Show_img")
-
-      
+        self.Show_img.setObjectName("Show_img")   
 
         self.IMG_show = QtWidgets.QLabel(self.Show_img)
         self.IMG_show.setGeometry(QtCore.QRect(50, 50,313,383))
         self.IMG_show.setText("")
         self.IMG_show.setObjectName("IMG_show")
-        # script_dir = path.dirname(path.realpath(__file__))
-        # img_filepath = path.join(script_dir,'imgDetection','img2.jpg')
-        # img_filepath = path.abspath(img_filepath)
-        # px = QtGui.QPixmap(img_filepath)
-        # pixmap = px.scaled(313, 383)
-        # self.IMG_show.setPixmap(pixmap)
-
 
         self.frame_4 = QtWidgets.QFrame(self.Show_img)
         self.frame_4.setGeometry(QtCore.QRect(1140, 410, 1280, 720)) #set lacation x y,size x y
@@ -103,13 +85,11 @@ class Ui_MainWindow(object):
         self.frame_4.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_4.setObjectName("frame_4")
 
-
         self.label_icon_helmet = QtWidgets.QLabel(self.widget)
         self.label_icon_helmet.setGeometry(QtCore.QRect(90, 550, 121, 101)) #set lacation x y,size x y
         self.label_icon_helmet.setStyleSheet("image: url(icon/motorbike_helmet_filled_100px.png);")
         self.label_icon_helmet.setText("")
         self.label_icon_helmet.setObjectName("label_icon_helmet")
-
 
         self.label_icon_person = QtWidgets.QLabel(self.widget)
         self.label_icon_person.setGeometry(QtCore.QRect(90, 660, 121, 101)) #set lacation x y,size x y
@@ -117,25 +97,33 @@ class Ui_MainWindow(object):
         self.label_icon_person.setText("")
         self.label_icon_person.setObjectName("label_icon_person")
 
-
         self.label_helmet = QtWidgets.QLabel(self.widget)
         self.label_helmet.setGeometry(QtCore.QRect(230, 560, 511, 51)) #set lacation x y,size x y
         self.label_helmet.setStyleSheet("font: 24pt \"Ink Free\";\n""color: rgb(255, 255, 255);")
         self.label_helmet.setObjectName("label_helmet")
         # self.label_helmet.setText("000000")
 
-
         self.label_no_helmet = QtWidgets.QLabel(self.widget)
         self.label_no_helmet.setGeometry(QtCore.QRect(220, 690, 501, 51)) #set lacation x y,size x y
         self.label_no_helmet.setStyleSheet("font: 24pt \"Ink Free\";\n""color: rgb(255, 255, 255);")
         self.label_no_helmet.setObjectName("label_no_helmet")
 
+        self.NODETRCT = QtWidgets.QLabel(self.widget)
+        self.NODETRCT.setGeometry(QtCore.QRect(220, 790, 501, 51)) #set lacation x y,size x y
+        self.NODETRCT.setStyleSheet("font: 24pt \"Ink Free\";\n""color: rgb(255, 255, 255);")
+        self.NODETRCT.setObjectName("NODETRCT")
+        self.NODETRCT.setText("Not detected :  ?  ")
+
+        self.total = QtWidgets.QLabel(self.widget)
+        self.total.setGeometry(QtCore.QRect(220, 860, 501, 51)) #set lacation x y,size x y
+        self.total.setStyleSheet("font: 24pt \"Ink Free\";\n""color: rgb(255, 255, 255);")
+        self.total.setObjectName("total")
+        self.total.setText("Total :  ?  ")
 
         self.widget_button = QtWidgets.QWidget(self.centralwidget)
         self.widget_button.setGeometry(QtCore.QRect(25, 860, 1280, 121)) #set lacation x y,size x y
         self.widget_button.setStyleSheet("background-color:rgb(24, 28, 31);\n""  border-radius: 10px;")
         self.widget_button.setObjectName("widget_button")
-
 
         self.stop_video = QtWidgets.QPushButton(self.widget_button)
         self.stop_video.setGeometry(QtCore.QRect(670, 30, 193, 63))  #set lacation x y,size x y
@@ -153,7 +141,6 @@ class Ui_MainWindow(object):
         self.play_video.setGeometry(QtCore.QRect(470, 30, 194, 63)) #set lacation x y,size x y
         self.play_video.setBaseSize(QtCore.QSize(0, 1))
         self.play_video.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-
         
         font = QtGui.QFont()
         font.setFamily("Ink Free")
@@ -162,7 +149,6 @@ class Ui_MainWindow(object):
         font.setItalic(False)
         font.setUnderline(False)
         font.setWeight(50)
-
 
         self.play_video.setFont(font)
         self.play_video.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
@@ -173,8 +159,6 @@ class Ui_MainWindow(object):
         self.play_video.setIconSize(QtCore.QSize(50, 50))
         self.play_video.setObjectName("play_video")
         
-
-
         self.open_file_video = QtWidgets.QPushButton(self.widget_button)
         self.open_file_video.setGeometry(QtCore.QRect(270, 30, 194, 63))#set lacation x y,size x y
         self.open_file_video.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
@@ -184,11 +168,6 @@ class Ui_MainWindow(object):
         self.open_file_video.setIcon(icon3)
         self.open_file_video.setIconSize(QtCore.QSize(40, 50))
         self.open_file_video.setObjectName("open_file_video")
-       
-
-
-       
-
 
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(1870, 20, 30, 30))#set lacation x y,size x y
@@ -235,7 +214,7 @@ class Ui_MainWindow(object):
         self.actionOpen_file.setObjectName("actionOpen_file")
         
         self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        #QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def ThardStart(self):
         self.thardclass = Thread()
@@ -248,11 +227,7 @@ class Ui_MainWindow(object):
         sys.exit()
     def pushButton_Minimize(self):
         print("MMMMM")
-        #MainWindow.setWindowFlags(QtCore.Qt.WindowTitleHint)
-    def setHelmet(self,n):
-        # self.HelmetN += n
-        print("n"+str(n))
-        self.label_helmet.setText("With helmet : ggg"+ str(n))
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -277,10 +252,7 @@ class Thread(QtCore.QThread):
  
     def run(self):
         self.flag = True
-        try:
-            self.play()
-        except :
-            pass
+        self.play()
         
 
     def stop(self):
@@ -293,11 +265,12 @@ class Thread(QtCore.QThread):
    
     def play(self):
         prog = Prog()
+        #self.cap1 = cv2.VideoCapture(0) 
+        #
         self.cap1 = cv2.VideoCapture(file) 
         self.bike_cascade = cv2.CascadeClassifier('cascade/bike_cascade.xml')
         self.i=0
-        
-         #   if (cap1.isOpened() == True):
+        star = 0
         while self.flag:
                 
                     ret, frame = self.cap1.read()
@@ -305,29 +278,23 @@ class Thread(QtCore.QThread):
                         Frame=cv2.resize(frame, (1280, 720)) 
                         gray = cv2.cvtColor(Frame, cv2.COLOR_BGR2GRAY)
                 
-                        bike = self.bike_cascade.detectMultiScale(gray,1.5,3)
+                        bike = self.bike_cascade.detectMultiScale(gray,1.5,8)
                         self.cu =0
+
                         for (x,y,w,h) in bike:
-                        
+                            
+                            print("X : "+str(x) +" Y :"+ str(y)+ " W : "+ str(w)+" h : "+ str(h))
+
                             x1=x-100
                             y1=y-100
                             self.cu=1
                             if(w>160):
-                                #print(self.i)
                                 self.i+=1
-                                cv2.rectangle(Frame,(x-100,y-100),(x+w+50,y+h+50),(255,0,0),3)
-                                if (self.i==5) :
-                                    # ran = random(1,9999999)
-                                    # fileName="cap"+str(ran)
-                                    # print(fileName)
-                                    
-                                    #x = randint(1, 100)    # Pick a random number between 1 and 100.
-                                    # print(x)
+                                cv2.rectangle(Frame,(x-100,y-100),(x+w+50,y+h+50),(255,0,0),4)
+                                
+                                if (self.i==4 ) :
                                     cv2.imwrite("imgDetection/img2.jpg",Frame[y1:y+h+50,x1:x+w+50])
-                                    #cv2.imwrite("cap/"+fileName+".jpg",Frame[y1:y+h+50,x1:x+w+50])
-                                    prog.show_i()
-                                    #prog.label_helmet.setText("4444444")
-
+                                    prog.show_i()                                 
                                     RGB_img=cv2.cvtColor(Frame[y1:y+h+50,x1:x+w+50], cv2.COLOR_BGR2RGB)
                                     Cvt2qt = QtGui.QImage(RGB_img.data, RGB_img.shape[1], RGB_img.shape[0], QtGui.QImage.Format_RGB888) 
                                     self.sendIMG.emit(Cvt2qt)
@@ -335,46 +302,31 @@ class Thread(QtCore.QThread):
                         if((self.cu==0)or(self.i>10)):
                             self.i=0
                         #print(self.cu)
+                        cv2.line(Frame, (700, 0), (700, 700), (0,255,0), 5)
+                       # cv2.line(Frame, (1300, 300), (0, 300), (0,255,0), 5) 
                         rgb_image = cv2.cvtColor(Frame, cv2.COLOR_BGR2RGB)
                         cvt2qt = QtGui.QImage(rgb_image.data, rgb_image.shape[1], rgb_image.shape[0], QtGui.QImage.Format_RGB888)                                 
-                        self.changePixmap.emit(cvt2qt)   
+                        self.changePixmap.emit(cvt2qt)  
+
+
                         if cv2.waitKey(30) == 27 :                     
                             break
                         if  self.flag == False :  
                             self.flag =False
                             break
                             print("stop!")
+
+
         cv2.destroyAllWindows()
 
-
-# class Thread2(QtCore.QThread):
-#     img = QtCore.pyqtSignal(QtGui.QImage)
-#     def __init__(self,parent=None):
-#          super(Thread2,self).__init__(parent)
-
-#     def run(self):
-#         while True :
-#             script_dir = path.dirname(path.realpath(__file__))
-#             img_filepath = path.join(script_dir,'imgDetection','show.jpg')
-#             #print(img_filepath)
-#             img_filepath = path.abspath(img_filepath)
-#             #print(img_filepath)
-#             px = QtGui.QPixmap(img_filepath)
-#             pixmap = px.scaled(313, 383)
-#             self.img.emit(px)
-            
-    
-    @QtCore.pyqtSlot() 
-    def setImage2(self):
-        print("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
-
-
-       
 class Prog(QtWidgets.QMainWindow, Ui_MainWindow):
     i=0
+    name =0
+    
     No_helmetN = 0
     HelmetN =0
-    name =0
+    a = [0] * 2
+    Detect=[0]* 2
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -383,46 +335,55 @@ class Prog(QtWidgets.QMainWindow, Ui_MainWindow):
         self.stop_video.clicked.connect(self.Stop)
         self.play_video.setEnabled(False)
         self.th = Thread()
-        #self.label_helmet.setText(" 1")      
-        # self.th2 =Thread2()
-        # self.th2.start()
-
+        self._helmet=0
+        self._nohelmet=0
 
     def show_i(self):
         cap = cv2.imread('imgDetection/img2.jpg')
-        helmet_cascade = cv2.CascadeClassifier('cascade/helmet3_cascade.xml')
-        no_helmet_cascade = cv2.CascadeClassifier('cascade/no_helmet_cascade.xml')
+        helmet_cascade = cv2.CascadeClassifier('cascade/helmet7_cascade.xml')
+        no_helmet_cascade = cv2.CascadeClassifier('cascade/no_helmet.xml')
         gray = cv2.cvtColor(cap, cv2.COLOR_BGR2GRAY)
-        helmet = helmet_cascade.detectMultiScale(gray,1.3,5)
-        no_helmet = no_helmet_cascade.detectMultiScale(gray,1.9,25)
-        coun =0
-        # for (x,y,w,h) in helmet:
-        #     cv2.rectangle(cap,(x,y),(x+w,y+h),(0,255,0),4)
-        #     coun =coun+1
-        # for (x,y,w,h) in no_helmet:
-        #     cv2.rectangle(cap,(x,y),(x+w,y+h),(0,0,255),4)
-           # coun =coun+1
-        x = randint(100,9999999)
-        print(x)
-        cv2.imwrite("cap1/b"+str(x)+".jpg",gray)
-        cv2.imwrite("imgDetection/show.jpg",gray)
-        #self.count_Helmet(1)
-        #if (coun>0) :
-            #
-        self.setHelmet(coun)
-        #self.setHelmet(coun)
-        cv2.waitKey(0)
-        #return coun
+        helmet = helmet_cascade.detectMultiScale(gray,1.1,10)
+        no_helmet = no_helmet_cascade.detectMultiScale(gray,1.5,10)
+        coun_helmet =0
+        coun_no_helmet=0
+        self.Detect[1]+=1
+        for (x,y,w,h) in helmet:
+            cv2.rectangle(cap,(x,y),(x+w,y+h),(0,255,0),2)
+            coun_helmet +=1
+        for (x,y,w,h) in no_helmet:
+            cv2.rectangle(cap,(x,y),(x+w,y+h),(0,0,255),2)
+            coun_no_helmet +=1
+        cv2.imwrite("imgDetection/show.jpg",cap)
         
+        if (coun_helmet>0 ) :
+            r=randint(11111,9999999)
+            cv2.imwrite("data/helmet/helmet-"+str(r)+".jpg",cap)
+            self.count_Helmet(coun_helmet)
+            
+        if (coun_no_helmet>0):
+            r=randint(11111,9999999)
+            cv2.imwrite("data/no-helmet/no-helmet-"+str(r)+".jpg",cap)
+            self.count_noHelmet(coun_no_helmet)
+            
+        if (coun_helmet==0 and coun_no_helmet==0) :
+            r=randint(11111,9999999)
+            cv2.imwrite("data/unknown1/unknown-"+str(r)+".jpg",cap)
+            self.Detect[0]+=1
+
+    def count_Helmet(self,h):
+        self.HelmetN += h
+        print('helmet : '+str(self.HelmetN))
+        self.a[0]= self.HelmetN
+
+    def count_noHelmet(self,n):
+        self.No_helmetN += n
+        print('no helmet : '+str(self.No_helmetN))
+        self.a[1]=self.No_helmetN
     def Start(self):
-        print("start..")
-        
         self.th.changePixmap.connect(self.setImage)
-        # try:
         self.th.sendIMG.connect(self.setShow)
-        # except :
-        #     pass
-        
+
         self.play_video.setEnabled(False)
         self.stop_video.setEnabled(True)
         self.stop_video.setStyleSheet("width:500px;\n""color: rgb(255, 255, 255);\n""height:500px;\n""border-ridge:40px;\n""font: 15pt \"Ink Free\";\n""  border-radius: 5px;\n""background-color: rgb(54, 66, 71);")
@@ -431,7 +392,6 @@ class Prog(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def Stop(self):
         print("stop...")
-        #self.flag=False
         self.th.stop()
         self.play_video.setEnabled(True)
         self.stop_video.setEnabled(False)
@@ -442,28 +402,13 @@ class Prog(QtWidgets.QMainWindow, Ui_MainWindow):
         self.play_video.setStyleSheet("width:500px;\n""\n""font: 15pt \"Ink Free\";\n""color: rgb(255, 255, 255);\n""height:500px;\n""border-ridge:40px;\n""background-color: rgb(54, 66, 71);\n""") 
         self.th.on()
 
+
     def openFileNameDialog(self):
         
         options = QFileDialog.Options()
         fileName, _ = QFileDialog.getOpenFileName(self,"Video", "","All Files (*);;Video Files (*.mp4)", options=options)
 
-        # if fileName:
-            
-        #     self.path = fileName
-        #     self.Start()
-
         return fileName
-    def count_Helmet(self,h):
-        if h>0:
-            self.HelmetN += h
-            self.label_helmet.setText("With helmet : "+str(self.HelmetN))
-        print(h)
-        
-
-    def count_noHelmet(self,n):
-        self.No_helmetN += n
-        self.label_no_helmet.setText("No helmet : "+str(self.No_helmetN))
-        print(n)
 
     @QtCore.pyqtSlot(QtGui.QImage) 
     def setImage(self, image):
@@ -474,27 +419,39 @@ class Prog(QtWidgets.QMainWindow, Ui_MainWindow):
 
         script_dir = path.dirname(path.realpath(__file__))
         img_filepath = path.join(script_dir,'imgDetection','show.jpg')
-        #print(img_filepath)
         img_filepath = path.abspath(img_filepath)
-        #print(img_filepath)
         px = QtGui.QPixmap(img_filepath)
         pixmap = px.scaled(313, 383)
         self.IMG_show.setPixmap(pixmap)
+        print("มีหวมก = "+str(self.a[0]))
+        print("ไม่มีหมวก = "+str(self.a[1]))
+        print("ทั้งหมดที่ตรวจเจอ = "+str(self.Detect[1]))
 
-        # self.prog = Prog()
-        # self.prog.show_i()
-        # self.count_Helmet(1)
+        self.label_helmet.setText("With helmet : "+str(self.a[0]))
+        self.label_no_helmet.setText("No helmet : "+str(self.a[1]))
+        
+        value =0
+        print("dsfsdf"+self.a[1])
+        sub = self.a[0]+self.a[1]
+        div =sub/self.Detect[1]
+        mul =div*100
+        print(' มี + ไม่มี = '+str(sub))
+        print(' หาร  = '+str(div))
+        print(' คูน  = '+str(mul))
+
+        self.NODETRCT.setText("Not detected :  "+str(int(mul))+" ")
+        self.total.setText("Total : "+str(int(mul))+" ")
 
     def closeEvent(self, event):
         self.th.stop()
         self.th.wait()
         super().closeEvent(event)
-  #  @QtCore.pyqtSlot(QtGui.QImage) 
-
+class data:
+    HHH =1
+    NHH =1
 
 if __name__=='__main__':
     Program =  QtWidgets.QApplication(sys.argv)
     MyProg = Prog()
     MyProg.show()
     sys.exit(Program.exec_())
-
